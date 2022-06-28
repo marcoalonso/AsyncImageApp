@@ -11,7 +11,13 @@ extension Image {
     func imageModifier() -> some View {
         self
             .resizable()
+            .frame(width: 320, height: 330, alignment: .center)
             .scaledToFit()
+            .cornerRadius(12)
+            .shadow(radius: 20)
+            
+            //.clipShape(Circle())
+            
     }
     
     func iconModifier() -> some View {
@@ -23,7 +29,7 @@ extension Image {
 }
 
 struct ContentView: View {
-    private let imageURL: String = "https://img.remediosdigitales.com/61a9ba/seat-ibiza-fr-20-aniversario-mexico-precio-/1366_2000.jp"
+    private let imageURL: String = "https://img.remediosdigitales.com/61a9ba/seat-ibiza-fr-20-aniversario-mexico-precio-/1366_2000.jpg"
     
     var body: some View {
         // MARK: - 1.- Basic
@@ -43,22 +49,39 @@ struct ContentView: View {
 //        .padding(44)
         
         // MARK: - 4.- Phase
-        AsyncImage(url: URL(string: imageURL)) { phase in
-            //Success: The image succesfully loaded.
-            //Failure: The image failed to load with an error.
-            //Empty: No image is loaded.
-            
-            if let image = phase.image {
+//        AsyncImage(url: URL(string: imageURL)) { phase in
+//            //Success: The image succesfully loaded.
+//            //Failure: The image failed to load with an error.
+//            //Empty: No image is loaded.
+//
+//            if let image = phase.image {
+//                image.imageModifier()
+//            } else if phase.error != nil {
+//                Image(systemName: "xmark.app.fill").iconModifier()
+//            } else {
+//                Image(systemName: "photo.circle.fill").iconModifier()
+//            }
+//
+//        }
+//        .padding(44)
+        // MARK: - 5.- Animation
+        AsyncImage(url: URL(string: imageURL), transaction: Transaction(animation: .spring(response: 0.6, dampingFraction: 0.6, blendDuration: 0.25))) { phase in
+            switch phase {
+            case .success(let image):
                 image.imageModifier()
-            } else if phase.error != nil {
+                    .transition(.move(edge: .bottom))
+            case .failure(_):
                 Image(systemName: "xmark.app.fill").iconModifier()
-            } else {
+            case .empty:
                 Image(systemName: "photo.circle.fill").iconModifier()
+            @unknown default:
+                ProgressView()
             }
-            
         }
-        .padding(44)
-    }
+        .padding(40)
+        
+        
+    }//body
 }
 
 struct ContentView_Previews: PreviewProvider {
