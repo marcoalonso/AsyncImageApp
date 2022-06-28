@@ -70,7 +70,8 @@ struct ContentView: View {
             case .success(let image):
                 image.imageModifier()
 //                    .transition(.move(edge: .bottom))
-                    .transition(.slide)
+//                    .transition(.slide)
+                    .transition(.scale)
             case .failure(_):
                 Image(systemName: "xmark.app.fill").iconModifier()
             case .empty:
