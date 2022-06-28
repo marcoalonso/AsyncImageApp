@@ -23,7 +23,7 @@ extension Image {
 }
 
 struct ContentView: View {
-    private let imageURL: String = "https://img.remediosdigitales.com/61a9ba/seat-ibiza-fr-20-aniversario-mexico-precio-/1366_2000.jpg"
+    private let imageURL: String = "https://img.remediosdigitales.com/61a9ba/seat-ibiza-fr-20-aniversario-mexico-precio-/1366_2000.jp"
     
     var body: some View {
         // MARK: - 1.- Basic
@@ -34,11 +34,28 @@ struct ContentView: View {
         //AsyncImage(url: URL(string: imageURL), scale: 5.0)
         
         // MARK: - Placeholder
-        AsyncImage(url: URL(string: imageURL)) { image in
-            image.imageModifier()
-        } placeholder: {
-            Image(systemName: "photo.circle.fill")
-                .iconModifier()
+//        AsyncImage(url: URL(string: imageURL)) { image in
+//            image.imageModifier()
+//        } placeholder: {
+//            Image(systemName: "photo.circle.fill")
+//                .iconModifier()
+//        }
+//        .padding(44)
+        
+        // MARK: - 4.- Phase
+        AsyncImage(url: URL(string: imageURL)) { phase in
+            //Success: The image succesfully loaded.
+            //Failure: The image failed to load with an error.
+            //Empty: No image is loaded.
+            
+            if let image = phase.image {
+                image.imageModifier()
+            } else if phase.error != nil {
+                Image(systemName: "xmark.app.fill").iconModifier()
+            } else {
+                Image(systemName: "photo.circle.fill").iconModifier()
+            }
+            
         }
         .padding(44)
     }
