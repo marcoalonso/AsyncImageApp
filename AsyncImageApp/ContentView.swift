@@ -3,7 +3,7 @@
 //  AsyncImageApp
 //
 //  Created by marco rodriguez on 27/06/22.
-//
+// https://www.udemy.com/course/swiftui-masterclass-course-ios-development-with-swift/learn/lecture/28297396#overview
 
 import SwiftUI
 
