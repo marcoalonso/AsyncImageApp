@@ -7,6 +7,21 @@
 
 import SwiftUI
 
+extension Image {
+    func imageModifier() -> some View {
+        self
+            .resizable()
+            .scaledToFit()
+    }
+    
+    func iconModifier() -> some View {
+        self.imageModifier()
+            .frame(maxWidth: 128)
+            .foregroundColor(.purple)
+            .opacity(0.5)
+    }
+}
+
 struct ContentView: View {
     private let imageURL: String = "https://img.remediosdigitales.com/61a9ba/seat-ibiza-fr-20-aniversario-mexico-precio-/1366_2000.jpg"
     
@@ -20,16 +35,10 @@ struct ContentView: View {
         
         // MARK: - Placeholder
         AsyncImage(url: URL(string: imageURL)) { image in
-            image
-                .resizable()
-                .scaledToFit()
+            image.imageModifier()
         } placeholder: {
             Image(systemName: "photo.circle.fill")
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: 128)
-                .foregroundColor(.purple)
-                .opacity(0.5)
+                .iconModifier()
         }
         .padding(44)
     }
